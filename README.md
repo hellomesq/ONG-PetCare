@@ -1,7 +1,12 @@
-# PetCare – Sistema de Gestão para ONGs de Adoção
+# PetCare – Sistema de Gestão Inteligente para ONGs de Adoção
 
-O **PetCare** é uma aplicação voltada para **ONGs de adoção animal**, permitindo o **gerenciamento de pets disponíveis para adoção**.  
-Cada pet recebe **dicas e insights personalizados de cuidado**, gerados automaticamente por meio do **Spring AI**.
+O **PetCare** é uma plataforma desenvolvida para **ONGs de adoção animal** que desejam modernizar sua gestão e promover **adoções mais responsáveis**.  
+
+Cada ONG pode **criar sua conta individual**, **cadastrar seus pets disponíveis** e gerar **insights personalizados de cuidado** por meio do **Spring AI**, auxiliando potenciais tutores a entender melhor as necessidades de cada animal antes da adoção.
+
+## Objetivo
+
+Promover **adoções conscientes e sustentáveis**, oferecendo às ONGs uma ferramenta que combina **gestão eficiente** e **inteligência artificial** para fornecer informações relevantes sobre cada pet, suas características e cuidados recomendados.
 
 ## Integrantes 
 
@@ -18,8 +23,9 @@ Cada pet recebe **dicas e insights personalizados de cuidado**, gerados automati
 
 ## Principais Funcionalidades
 
-- Cadastro da ONGs com autenticação segura.  
+- Cadastro e login de ONGs (cada ONG gerencia apenas seus próprios pets).  
 - Registro e catálogo de pets para adoção.  
-- Geração automática de recomendações de cuidado personalizadas para cada pet.  
+- Geração automática de recomendações de cuidado personalizadas para cada pet.
+- Visualização de pets e dicas para potenciais tutores interessados.  
 - Interface web intuitiva e responsiva (via Thymeleaf).  
 - Persistência de dados com PostgreSQL. 
