@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/header :: body"></div>
+
+<div class="text-center mt-5">
+    <h1 class="fw-bold text-primary">Bem-vindo ao PetCare</h1>
+    <p class="mt-3 fs-5 text-secondary">
+        Um sistema para gerenciar sua ONG e seus pets de forma simples e eficiente.
+    </p>
+    <a th:href="@{/ongs}" class="btn btn-primary mt-4 btn-lg">Editar informações da ONG</a>
+</div>
+
+</body>
+</html>

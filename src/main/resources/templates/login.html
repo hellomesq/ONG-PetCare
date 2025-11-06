@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<div>
+    <h2>Login ONG</h2>
+    <form th:action="@{/ongs/login}" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label>Senha:</label>
+        <input type="password" name="senha" required><br>
+
+        <button type="submit">Entrar</button>
+    </form>
+    <p>Não tem conta? <a th:href="@{/ongs/cadastrar}">Cadastre-se aqui</a></p>
+</div>
+</html>
