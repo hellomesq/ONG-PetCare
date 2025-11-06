@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro da ONG</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Cadastro da ONG</h2>
+
+        <form th:action="@{/ongs/salvar}" th:object="${ong}" method="post" class="space-y-4">
+
+            <!-- Nome da ONG -->
+            <div>
+                <label for="nome" class="block text-pink-800 font-medium mb-1">Nome da ONG</label>
+                <input type="text" id="nome" th:field="*{nome}" placeholder="Digite o nome da ONG"
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-pink-800 font-medium mb-1">Email</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="email@exemplo.com"
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+            </div>
+
+            <!-- Senha -->
+            <div>
+                <label for="senha" class="block text-pink-800 font-medium mb-1">Senha</label>
+                <input type="password" id="senha" th:field="*{senha}" placeholder="Digite uma senha"
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+            </div>
+
+            <!-- Botão -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-pink-600 text-white font-semibold py-2 rounded-md hover:bg-pink-700 transition duration-200">
+                    Cadastrar ONG
+                </button>
+            </div>
+        </form>
+
+        <p class="text-center text-pink-500 mt-4 text-sm">
+            Já possui cadastro? <a th:href="@{/ongs/login}" class="text-pink-600 hover:underline">Faça login</a>
+        </p>
+    </div>
+
+</body>
+</html>
