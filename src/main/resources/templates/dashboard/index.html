@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PetCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+
+    <!-- Header/Navbar -->
+    <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">🐾 PetCare</h1>
+                    <p class="text-pink-100" th:text="'Bem-vinda, ' + ${ongLogada.nome}">Bem-vinda, ONG</p>
+                </div>
+                <a th:href="@{/ongs/logout}" 
+                   class="bg-white text-pink-600 px-4 py-2 rounded-lg font-semibold hover:bg-pink-50 transition">
+                    Sair
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Estatísticas -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-pink-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Total de Pets</p>
+                        <p class="text-3xl font-bold text-pink-600" th:text="${#lists.size(pets)}">0</p>
+                    </div>
+                    <div class="text-5xl">🐾</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">ONG</p>
+                        <p class="text-xl font-bold text-purple-600" th:text="${ongLogada.nome}">Nome</p>
+                    </div>
+                    <div class="text-5xl">🏢</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-pink-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">IA Ativada</p>
+                        <p class="text-lg font-bold text-pink-600">OpenAI</p>
+                    </div>
+                    <div class="text-5xl">✨</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações rápidas -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-pink-600 mb-4">Ações Rápidas</h2>
+            <div class="flex gap-4">
+                <a th:href="@{/dashboard/pets/novo}" 
+                   class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transition shadow-lg">
+                    ➕ Cadastrar Novo Pet
+                </a>
+            </div>
+        </div>
+
+        <!-- Lista de Pets da ONG -->
+        <div>
+            <h2 class="text-2xl font-bold text-pink-600 mb-4">Meus Pets</h2>
+
+            <!-- Mensagem se não houver pets -->
+            <div th:if="${#lists.isEmpty(pets)}" class="bg-pink-100 border border-pink-300 rounded-lg p-8 text-center">
+                <p class="text-pink-800 text-lg mb-4">
+                    Você ainda não cadastrou nenhum pet.
+                </p>
+                <a th:href="@{/dashboard/pets/novo}" 
+                   class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition">
+                    ➕ Cadastrar Primeiro Pet
+                </a>
+            </div>
+
+            <!-- Grid de pets -->
+            <div th:if="${!#lists.isEmpty(pets)}" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div th:each="pet : ${pets}" 
+                     class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition">
+                    <div class="bg-gradient-to-r from-pink-500 to-purple-600 p-4">
+                        <h3 class="text-xl font-bold text-white" th:text="${pet.nome}">Nome</h3>
+                        <p class="text-pink-100" th:text="${pet.especie}">Espécie</p>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="space-y-1 mb-4">
+                            <p class="text-gray-700">
+                                <span class="font-semibold">Raça:</span> 
+                                <span th:text="${pet.raca}">Raça</span>
+                            </p>
+                            <p class="text-gray-700">
+                                <span class="font-semibold">Idade:</span> 
+                                <span th:text="${pet.idade}">0</span> anos
+                            </p>
+                        </div>
+                        
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2" th:text="${pet.descricao}">Descrição</p>
+                        
+                        <div class="space-y-2">
+                            <a th:href="@{/dashboard/pets/{id}(id=${pet.id})}" 
+                               class="block w-full bg-pink-600 text-white text-center py-2 rounded-lg font-semibold hover:bg-pink-700 transition">
+                                Ver Detalhes
+                            </a>
+                            <a th:href="@{/dashboard/pets/{id}/recomendacao(id=${pet.id})}" 
+                               class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition">
+                                ✨ Gerar Recomendação IA
+                            </a>
+                            <a th:href="@{/dashboard/pets/{id}/editar(id=${pet.id})}" 
+                               class="block w-full bg-yellow-500 text-white text-center py-2 rounded-lg font-semibold hover:bg-yellow-600 transition">
+                                Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

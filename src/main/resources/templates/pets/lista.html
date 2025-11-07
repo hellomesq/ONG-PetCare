@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets Disponíveis - PetCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen">
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold text-pink-600">
+                🐾 Pets Disponíveis para Adoção
+            </h1>
+            <a th:href="@{/}" 
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
+                🏠 Voltar ao Início
+            </a>
+        </div>
+
+        <!-- Mensagem se não houver pets -->
+        <div th:if="${#lists.isEmpty(pets)}" class="bg-pink-100 border border-pink-300 rounded-lg p-8 text-center max-w-2xl mx-auto">
+            <p class="text-pink-800 text-lg mb-4">
+                ℹ️ Nenhum pet cadastrado ainda. Use a API REST para cadastrar pets!
+            </p>
+            <div class="bg-white rounded-lg p-4 mt-4 text-left">
+                <p class="font-semibold text-pink-700 mb-2">Exemplo com cURL:</p>
+                <pre class="bg-gray-100 p-3 rounded text-sm overflow-x-auto">POST http://localhost:8080/pets/1
+Content-Type: application/json
+
+{
+  "nome": "Rex",
+  "especie": "Cachorro",
+  "raca": "Labrador",
+  "idade": 3,
+  "descricao": "Rex é um cachorro muito brincalhão e energético."
+}</pre>
+            </div>
+        </div>
+
+        <!-- Grid de cards de pets -->
+        <div th:if="${!#lists.isEmpty(pets)}" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="pet : ${pets}" 
+                 class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
+                <div class="bg-gradient-to-r from-pink-500 to-purple-600 p-4">
+                    <h3 class="text-2xl font-bold text-white" th:text="${pet.nome}">Nome</h3>
+                    <p class="text-pink-100" th:text="${pet.especie}">Espécie</p>
+                </div>
+                
+                <div class="p-5">
+                    <div class="space-y-2 mb-4">
+                        <p class="text-gray-700">
+                            <span class="font-semibold">🐕 Raça:</span> 
+                            <span th:text="${pet.raca}">Raça</span>
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-semibold">🎂 Idade:</span> 
+                            <span th:text="${pet.idade}">0</span> anos
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-semibold">🏢 ONG:</span> 
+                            <span th:text="${pet.ong?.nome}">ONG</span>
+                        </p>
+                    </div>
+                    
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3" th:text="${pet.descricao}">Descrição do pet</p>
+                    
+                    <div class="space-y-2">
+                        <a th:href="@{/web/pets/{id}(id=${pet.id})}" 
+                           class="block w-full bg-pink-600 text-white text-center py-2 rounded-lg font-semibold hover:bg-pink-700 transition">
+                            ℹ️ Ver Detalhes
+                        </a>
+                        <a th:href="@{/web/pets/{id}/recomendacao(id=${pet.id})}" 
+                           class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition">
+                            ✨ Recomendação de IA
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

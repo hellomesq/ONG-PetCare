@@ -25,6 +25,10 @@ public class OngService {
         return repository.findById(id);
     }
 
+    public Ong buscarPorEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     public Ong salvar(@NonNull Ong ong) {
         return repository.save(ong);
     }

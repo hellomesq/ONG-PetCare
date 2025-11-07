@@ -1,17 +1,28 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:petcare-db
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    # Use Postgres by default when running in docker-compose; can be overridden with env vars
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:petcare-db}
+    driverClassName: ${SPRING_DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: update
+      # Use validate to let Flyway manage the schema
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    # default locations are used: classpath:db/migration
   h2:
     console:
       enabled: true
       path: /h2-console
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
+
+# OpenAI / Spring AI settings
+openai:
+  api-key: ${OPENAI_API_KEY:}
+

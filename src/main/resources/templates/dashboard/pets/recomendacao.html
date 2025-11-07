@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Recomendações para ' + ${pet.nome}">Recomendações de IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-2xl font-bold">Dashboard - <span th:text="${session.ongLogada.nome}">ONG</span></span>
+                </div>
+                <div class="space-x-4">
+                    <a th:href="@{/dashboard}" class="hover:text-pink-200 transition">Dashboard</a>
+                    <a th:href="@{/ongs/logout}" class="hover:text-pink-200 transition">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- Voltar -->
+        <div class="mb-6">
+            <a th:href="@{'/dashboard/pets/' + ${pet.id}}" class="inline-flex items-center text-pink-600 hover:text-purple-600 transition font-semibold">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Voltar aos Detalhes
+            </a>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full mb-4 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 mb-2">
+                    Recomendações de Cuidados
+                </h1>
+                <p class="text-xl text-gray-600">
+                    Para <span class="font-bold text-pink-600" th:text="${pet.nome}">Pet</span>
+                </p>
+            </div>
+
+            <!-- Card de Recomendação -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <!-- Info do Pet -->
+                <div class="bg-gradient-to-r from-pink-100 to-purple-100 px-8 py-6 border-b-2 border-pink-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800" th:text="${pet.nome}">Nome do Pet</h2>
+                            <p class="text-gray-600" th:text="${pet.especie} + ' • ' + ${pet.raca ?: 'SRD'} + ' • ' + ${pet.idade} + ' anos'">
+                                Espécie • Raça • Idade
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-full p-3 shadow-md">
+                            <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendação da IA -->
+                <div class="p-8">
+                    <!-- Badge IA -->
+                    <div class="inline-flex items-center bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full mb-6 shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span class="font-semibold" th:if="${#strings.contains(recomendacao, 'OPENAI_API_KEY')}">
+                            Recomendação Padrão
+                        </span>
+                        <span class="font-semibold" th:unless="${#strings.contains(recomendacao, 'OPENAI_API_KEY')}">
+                            Gerado por IA
+                        </span>
+                    </div>
+
+                    <!-- Conteúdo -->
+                    <div class="prose max-w-none">
+                        <div th:if="${#strings.contains(recomendacao, 'OPENAI_API_KEY')}" 
+                             class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-6">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-yellow-400 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <div>
+                                    <h3 class="font-bold text-yellow-800 mb-2">Configuração Necessária</h3>
+                                    <p class="text-yellow-700">
+                                        Para gerar recomendações personalizadas com IA, configure a variável de ambiente <code class="bg-yellow-200 px-2 py-1 rounded">OPENAI_API_KEY</code> com sua chave da OpenAI.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6 whitespace-pre-line leading-relaxed text-gray-700">
+                            <span th:text="${recomendacao}">Recomendação aqui...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ações -->
+                <div class="bg-gray-50 px-8 py-6 border-t-2 border-gray-200">
+                    <div class="flex gap-4">
+                        <a th:href="@{'/dashboard/pets/' + ${pet.id}}"
+                           class="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-pink-600 hover:to-purple-700 transition shadow-lg text-center font-semibold">
+                            Ver Detalhes do Pet
+                        </a>
+                        <a th:href="@{/dashboard}"
+                           class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition text-center font-semibold">
+                            Voltar ao Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-pink-500 to-purple-600 text-white mt-16 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm opacity-90">© 2024 PetCare ONG. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

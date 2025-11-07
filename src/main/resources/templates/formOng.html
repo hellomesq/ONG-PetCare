@@ -3,49 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro da ONG</title>
-    <!-- Tailwind CDN -->
+    <title>Cadastro da ONG - PetCare</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-pink-50 min-h-screen flex items-center justify-center">
 
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Cadastro da ONG</h2>
+        <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">
+            <span th:if="${ong.id == null}">Cadastro da ONG</span>
+            <span th:if="${ong.id != null}">Editar ONG</span>
+        </h2>
 
         <form th:action="@{/ongs/salvar}" th:object="${ong}" method="post" class="space-y-4">
+            <input type="hidden" th:field="*{id}">
 
             <!-- Nome da ONG -->
             <div>
                 <label for="nome" class="block text-pink-800 font-medium mb-1">Nome da ONG</label>
                 <input type="text" id="nome" th:field="*{nome}" placeholder="Digite o nome da ONG"
-                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400" required>
             </div>
 
             <!-- Email -->
             <div>
                 <label for="email" class="block text-pink-800 font-medium mb-1">Email</label>
                 <input type="email" id="email" th:field="*{email}" placeholder="email@exemplo.com"
-                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400" required>
             </div>
 
             <!-- Senha -->
             <div>
                 <label for="senha" class="block text-pink-800 font-medium mb-1">Senha</label>
                 <input type="password" id="senha" th:field="*{senha}" placeholder="Digite uma senha"
-                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                       class="w-full border border-pink-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400" required>
             </div>
 
-            <!-- Botão -->
-            <div>
+            <!-- Botões -->
+            <div class="space-y-2">
                 <button type="submit"
                         class="w-full bg-pink-600 text-white font-semibold py-2 rounded-md hover:bg-pink-700 transition duration-200">
-                    Cadastrar ONG
+                    Salvar ONG
                 </button>
+                <a th:href="@{/ongs}" 
+                   class="block w-full text-center bg-gray-200 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-300 transition duration-200">
+                    Voltar para Lista
+                </a>
             </div>
         </form>
 
         <p class="text-center text-pink-500 mt-4 text-sm">
-            Já possui cadastro? <a th:href="@{/ongs/login}" class="text-pink-600 hover:underline">Faça login</a>
+            <a th:href="@{/}" class="text-pink-600 hover:underline">Voltar ao Início</a>
         </p>
     </div>
 

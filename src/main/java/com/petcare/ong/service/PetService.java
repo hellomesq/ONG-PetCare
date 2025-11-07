@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetService {
@@ -35,6 +36,10 @@ public class PetService {
         return petRepository.findByOngId(ongId);
     }
 
+    public Optional<Pet> buscarPorId(@NonNull Long id) {
+        return petRepository.findById(id);
+    }
+
     public Pet atualizarPet(@NonNull Long id, Pet petAtualizado) {
         Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
@@ -47,6 +52,14 @@ public class PetService {
     }
 
     public void deletarPet(@NonNull Long id) {
+        petRepository.deleteById(id);
+    }
+
+    public Pet salvar(@NonNull Pet pet) {
+        return petRepository.save(pet);
+    }
+
+    public void deletar(@NonNull Long id) {
         petRepository.deleteById(id);
     }
 }

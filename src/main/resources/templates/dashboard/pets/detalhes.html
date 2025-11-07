@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Detalhes de ' + ${pet.nome}">Detalhes do Pet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-2xl font-bold">Dashboard - <span th:text="${session.ongLogada.nome}">ONG</span></span>
+                </div>
+                <div class="space-x-4">
+                    <a th:href="@{/dashboard}" class="hover:text-pink-200 transition">Dashboard</a>
+                    <a th:href="@{/ongs/logout}" class="hover:text-pink-200 transition">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- Voltar -->
+        <div class="mb-6">
+            <a th:href="@{/dashboard}" class="inline-flex items-center text-pink-600 hover:text-purple-600 transition font-semibold">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Voltar ao Dashboard
+            </a>
+        </div>
+
+        <!-- Card do Pet -->
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Header com Gradiente -->
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-12">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-5xl font-bold mb-2" th:text="${pet.nome}">Nome do Pet</h1>
+                        <p class="text-xl opacity-90" th:text="${pet.especie} + ' • ' + ${pet.idade} + ' anos'">Espécie • Idade</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-lg rounded-full p-4">
+                        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="p-8">
+                <!-- Informações -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Espécie</h3>
+                        <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600" th:text="${pet.especie}">Cachorro</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Raça</h3>
+                        <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600" th:text="${pet.raca ?: 'Não informado'}">Vira-lata</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Idade</h3>
+                        <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600" th:text="${pet.idade} + ' anos'">2 anos</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">ONG</h3>
+                        <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600" th:text="${pet.ong.nome}">ONG</p>
+                    </div>
+                </div>
+
+                <!-- Descrição -->
+                <div class="mb-8" th:if="${pet.descricao}">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Sobre o Pet</h3>
+                    <p class="text-gray-600 leading-relaxed" th:text="${pet.descricao}">Descrição do pet...</p>
+                </div>
+
+                <!-- Ações -->
+                <div class="flex gap-4 flex-wrap">
+                    <a th:href="@{'/dashboard/pets/' + ${pet.id} + '/recomendacao'}"
+                       class="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-pink-600 hover:to-purple-700 transition shadow-lg text-center font-semibold inline-flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        Gerar Recomendações com IA
+                    </a>
+                    <a th:href="@{'/dashboard/pets/' + ${pet.id} + '/editar'}"
+                       class="flex-1 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition shadow-lg text-center font-semibold inline-flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        Editar
+                    </a>
+                    <form th:action="@{'/dashboard/pets/' + ${pet.id} + '/deletar'}" method="post" class="flex-1"
+                          onsubmit="return confirm('Tem certeza que deseja remover este pet?');">
+                        <button type="submit"
+                                class="w-full bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition shadow-lg font-semibold inline-flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            Deletar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-pink-500 to-purple-600 text-white mt-16 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm opacity-90">© 2024 PetCare ONG. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

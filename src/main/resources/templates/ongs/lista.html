@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de ONGs - PetCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 min-h-screen">
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-pink-600">
+                🏢 ONGs Cadastradas
+            </h1>
+            <div class="space-x-3">
+                <a th:href="@{/ongs/novo}" 
+                   class="bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-700 transition">
+                    ➕ Nova ONG
+                </a>
+                <a th:href="@{/}" 
+                   class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    🏠 Início
+                </a>
+            </div>
+        </div>
+
+        <!-- Mensagem se não houver ONGs -->
+        <div th:if="${#lists.isEmpty(ongs)}" class="bg-pink-100 border border-pink-300 rounded-lg p-8 text-center">
+            <p class="text-pink-800 text-lg mb-4">
+                ℹ️ Nenhuma ONG cadastrada ainda.
+            </p>
+            <a th:href="@{/ongs/novo}" 
+               class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition">
+                ➕ Cadastrar Primeira ONG
+            </a>
+        </div>
+
+        <!-- Cards de ONGs -->
+        <div th:if="${!#lists.isEmpty(ongs)}" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="ong : ${ongs}" 
+                 class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-pink-500 hover:shadow-xl transition">
+                <h3 class="text-xl font-bold text-pink-700 mb-2" th:text="${ong.nome}">Nome da ONG</h3>
+                <p class="text-gray-600 mb-1">
+                    📧 <span th:text="${ong.email}">email@ong.com</span>
+                </p>
+                <p class="text-gray-500 text-sm mb-4">
+                    🆔 ID: <span th:text="${ong.id}">1</span>
+                </p>
+                
+                <div class="flex gap-2">
+                    <a th:href="@{/ongs/editar/{id}(id=${ong.id})}" 
+                       class="flex-1 bg-yellow-500 text-white px-3 py-2 rounded text-center font-semibold hover:bg-yellow-600 transition">
+                        ✏️ Editar
+                    </a>
+                    <a th:href="@{/ongs/deletar/{id}(id=${ong.id})}" 
+                       onclick="return confirm('Tem certeza que deseja deletar esta ONG?')"
+                       class="flex-1 bg-red-500 text-white px-3 py-2 rounded text-center font-semibold hover:bg-red-600 transition">
+                        🗑️ Deletar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Link para pets -->
+        <div class="text-center mt-12">
+            <a th:href="@{/web/pets}" 
+               class="inline-block bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-pink-600 hover:to-purple-700 transition shadow-lg">
+                🐾 Ver Pets Disponíveis
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
